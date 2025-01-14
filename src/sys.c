@@ -37,9 +37,9 @@ SYSCALL_DEFINE2(encptr, void __user*, ptr, size_t, size) {
         unsigned char xor_key;
 
         // Girdilerin Present girdi formatına çevrilmesi
-        snprintf(encptr_text, 17, "%llx", encrypted_ptr + i);
-        snprintf(masterkey_text, 17, "%llx", current->master_key[0]);
-        snprintf(masterkey_text + 16, 5, "%llx", (current->master_key[1] >> 16) & 0xFFFF);
+        snprintf(encptr_text, 17, "%16llx", encrypted_ptr + i);
+        snprintf(masterkey_text, 17, "%16llx", current->master_key[0]);
+        snprintf(masterkey_text + 16, 5, "%04llx", (current->master_key[1] >> 16) & 0xFFFF);
 
         temp = present_encrypt(encptr_text, masterkey_text);
         strscpy(xorkey_text, temp, 3);
@@ -83,9 +83,9 @@ SYSCALL_DEFINE2(decptr, void __user*, ptr, size_t, size) {
         char* temp;
         unsigned char xor_key;
 
-        snprintf(encptr_text, 17, "%llx", kernel_ptr + i);
-        snprintf(masterkey_text, 17, "%llx", current->master_key[0]);
-        snprintf(masterkey_text + 16, 5, "%llx", (current->master_key[1] >> 16) & 0xFFFF);
+        snprintf(encptr_text, 17, "%16llx", kernel_ptr + i);
+        snprintf(masterkey_text, 17, "%16llx", current->master_key[0]);
+        snprintf(masterkey_text + 16, 5, "%04llx", (current->master_key[1] >> 16) & 0xFFFF);
 
         temp = present_encrypt(encptr_text, masterkey_text);
         strscpy(xorkey_text, temp, 3);
